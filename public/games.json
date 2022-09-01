@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "games": [
+    {
+      "title": "The Legend of Zelda: Breath of the Wild",
+      "aliases": ["botw", "breath of the wild", "zelda"],
+      "image": "botw"
+    },
+    {
+      "title": "Super Mario Odyssey",
+      "aliases": ["super mario", "mario", "odyssey"],
+      "image": "super-mario-odyssey"
+    },
+    {
+      "title": "Mario Kart 8: Deluxe",
+      "aliases": ["mario", "kart", "race", "kart racing", "kart race"],
+      "image": "mario-kart-8"
+    },
+    {
+      "title": "Xenoblade Chronicles: Definitive Edition",
+      "aliases": ["xenoblade", "chronicles", "definitive"],
+      "image": "xenoblade-chronicles-definitive"
+    },
+    {
+      "title": "Xenoblade Chronicles 2",
+      "aliases": ["xenoblade", "chronicles"],
+      "image": "xenoblade-chronicles-2"
+    },
+    {
+      "title": "Xenoblade Chronicles 3",
+      "aliases": ["xenoblade", "chronicles"],
+      "image": "xenoblade-chronicles-3"
+    },
+    {
+      "title": "Fire Emblem Warriors",
+      "aliases": ["fire emblem", "warriors"],
+      "image": "fire-emblem-warriors"
+    },
+    {
+      "title": "Splatoon 2",
+      "aliases": ["splatoon"],
+      "image": "splatoon-2"
+    },
+    {
+      "title": "Splatoon 3",
+      "aliases": ["splatoon"],
+      "image": "splatoon-3"
+    }
+  ]
+}

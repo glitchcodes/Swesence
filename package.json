@@ -1,0 +1,72 @@
+{
+  "name": "switch-presence",
+  "private": true,
+  "version": "0.0.0",
+  "type": "commonjs",
+  "main": "electron/main.js",
+  "description": "Show your Nintendo Switch play activity using Discord Rich Presence",
+  "license": "MIT",
+  "scripts": {
+    "dev": "concurrently -k 'vite' 'npm run electron:dev' './node_modules/.bin/vue-devtools'",
+    "build": "vite build",
+    "preview": "vite preview",
+    "start": "npm run build && npm run electron:start",
+    "electron:start": "electron .",
+    "electron:dev": "cross-env IS_DEV=true electron-forge start",
+    "electron:package": "electron-forge package",
+    "make": "electron-forge make"
+  },
+  "dependencies": {
+    "@element-plus/icons-vue": "^2.0.9",
+    "@vueuse/core": "^9.1.0",
+    "discord-rich-presence": "^0.0.8",
+    "electron-squirrel-startup": "^1.0.0",
+    "element-plus": "^2.2.13",
+    "utilities-css": "^5.0.0",
+    "vue": "^3.2.37"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.65",
+    "@electron-forge/maker-deb": "^6.0.0-beta.65",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.65",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.65",
+    "@electron-forge/maker-zip": "^6.0.0-beta.65",
+    "@vitejs/plugin-vue": "^3.0.3",
+    "@vue/devtools": "^6.2.1",
+    "concurrently": "^7.3.0",
+    "cross-env": "^7.0.3",
+    "electron": "^20.0.3",
+    "unplugin-element-plus": "^0.4.1",
+    "vite": "^3.0.7"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {
+        "name": "Swesence",
+        "productName": "Swesence"
+      },
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "Swesence"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ]
+    }
+  }
+}
