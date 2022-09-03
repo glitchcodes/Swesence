@@ -1,5 +1,5 @@
 {
-  "name": "switch-presence",
+  "name": "swesence",
   "private": true,
   "version": "0.0.0",
   "type": "commonjs",
@@ -7,7 +7,7 @@
   "description": "Show your Nintendo Switch play activity using Discord Rich Presence",
   "license": "MIT",
   "scripts": {
-    "dev": "concurrently -k 'vite' 'npm run electron:dev' './node_modules/.bin/vue-devtools'",
+    "dev": "concurrently -k \"vite\" \"npm run electron:dev\" \"npx @vue/devtools\"",
     "build": "vite build",
     "preview": "vite preview",
     "start": "npm run build && npm run electron:start",
