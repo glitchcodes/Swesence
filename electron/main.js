@@ -18,6 +18,7 @@ function createWindow() {
     window = new BrowserWindow({
         width: 800,
         height: 600,
+        autoHideMenuBar: true, // Hide toolbar
         webPreferences: {
             preload: path.join(__dirname, 'preload.js')
         }
@@ -39,7 +40,7 @@ app.setName("Swesence")
 app.whenReady()
     .then(() => {
         // IPC Handlers
-        ipcMain.handle('loadDatabase', async (event) => {
+        ipcMain.handle('loadDatabase', async () => {
             const pathToDatabase = path.join(__dirname, '../public', 'games.json')
             const raw = fs.readFileSync(pathToDatabase)
 
