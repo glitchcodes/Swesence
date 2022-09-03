@@ -1,3 +1,9 @@
+<template>
+  <keep-alive>
+    <component :is="currentComponent" :isDark="isDark" @change-page="navigateTo" />
+  </keep-alive>
+</template>
+
 <script setup>
   // Runtime
   import devtools from '@vue/devtools'
@@ -30,6 +36,13 @@
     }
   })
 
+  const navigateTo = (name) => {
+    // Validate Navigation
+    if (!['HomePage', 'SettingsPage'].includes(name)) return;
+
+    component.value = name
+  }
+
   // Handle dark mode
   const isDark = ref(window.matchMedia("(prefers-color-scheme: dark)").matches)
 
@@ -58,10 +71,6 @@
     })
   })
 </script>
-
-<template>
-  <component :is="currentComponent" :isDark="isDark" />
-</template>
 
 <style scoped>
 

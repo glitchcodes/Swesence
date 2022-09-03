@@ -1,6 +1,6 @@
 const path = require("path");
 
-const { app, BrowserWindow, ipcMain } = require("electron");
+const { app, BrowserWindow, ipcMain, shell } = require("electron");
 const fs = require("fs");
 const rpc = require('discord-rich-presence')('1010070024997851137')
 
@@ -32,6 +32,12 @@ function createWindow() {
         // Load production build
         window.loadFile(path.join(__dirname, '../dist', 'index.html'));
     }
+
+    // Listen for new-window event
+    window.webContents.setWindowOpenHandler(({ url }) => {
+        shell.openExternal(url);
+        return { allow: 'deny' }
+    })
 }
 
 // Set application name
@@ -57,6 +63,13 @@ app.whenReady()
 
             return { success: true }
         });
+
+        ipcMain.handle('fetchSettings', async () => {
+            const pathToSettings = path.join(__dirname, '../public', 'config.json')
+            const raw = fs.readFileSync(pathToSettings)
+
+            return JSON.parse(raw.toString())
+        })
 
         // Create Windows
         createWindow();

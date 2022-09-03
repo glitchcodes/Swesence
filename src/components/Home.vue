@@ -9,6 +9,18 @@
       <div class="text-align-start" style="clear: left">
         <h2>Swesence</h2>
         <p>Show your Nintendo Switch activity to Discord</p>
+
+        <div class="mt-4">
+          <el-button type="primary" :icon="Setting" plain @click="emit('change-page', 'SettingsPage')">
+            Settings
+          </el-button>
+
+          <el-link href="https://google.com" :underline="false" class="ml-2">
+            <el-button type="info" :icon="QuestionFilled" plain>
+              FAQ
+            </el-button>
+          </el-link>
+        </div>
       </div>
     </el-col>
     <el-col class="form--custom" :span="12">
@@ -49,8 +61,10 @@
 <script setup>
   import { ref, reactive, onMounted, computed } from "vue";
 
-  import { ElButton, ElCol, ElForm, ElFormItem, ElInput, ElOption, ElRow, ElSelect, ElMessage } from 'element-plus'
-  import { Position } from '@element-plus/icons-vue'
+  import { ElButton, ElCol, ElForm, ElFormItem, ElInput, ElOption, ElRow, ElSelect, ElMessage, ElLink } from 'element-plus'
+  import { Position, Setting, QuestionFilled } from '@element-plus/icons-vue'
+
+  const emit = defineEmits(['change-page']);
 
   const props = defineProps({
     isDark: Boolean
