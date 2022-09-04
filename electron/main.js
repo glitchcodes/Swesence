@@ -2,12 +2,16 @@ const path = require("path");
 
 const { app, BrowserWindow, ipcMain, shell } = require("electron");
 const fs = require("fs");
-const rpc = require('discord-rich-presence')('1010070024997851137')
+const rpc = require('discord-rich-presence')
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
     app.quit();
 }
+
+// Get path to Game Database
+const pathToDatabase = path.join(__dirname, '../public', 'games.json')
+const pathToSettings = path.join(__dirname, '../public', 'config.json')
 
 const isDev = process.env.IS_DEV === 'true'
 
@@ -36,7 +40,7 @@ function createWindow() {
     // Listen for new-window event
     window.webContents.setWindowOpenHandler(({ url }) => {
         shell.openExternal(url);
-        return { allow: 'deny' }
+        return { action: 'deny' }
     })
 }
 
@@ -47,14 +51,28 @@ app.whenReady()
     .then(() => {
         // IPC Handlers
         ipcMain.handle('loadDatabase', async () => {
-            const pathToDatabase = path.join(__dirname, '../public', 'games.json')
             const raw = fs.readFileSync(pathToDatabase)
 
             return JSON.parse(raw.toString())
         })
 
+        ipcMain.handle('updateDatabase', async (event, args) => {
+            try {
+                fs.writeFileSync(pathToDatabase, JSON.stringify(args, null, 2), 'utf8')
+
+                return { success: true }
+            } catch (error) {
+                console.log("An error occurred while updating the game database: " + error);
+
+                return { success: false }
+            }
+        })
+
         ipcMain.handle('updatePresence', async (event, args) => {
-            rpc.updatePresence({
+            const settingsFile = fs.readFileSync(pathToSettings)
+            const settings = JSON.parse(settingsFile.toString())
+
+            rpc(settings.applicationId).updatePresence({
                 details: args.game,
                 state: args.activity,
                 startTimestamp: Date.now(),
@@ -69,6 +87,18 @@ app.whenReady()
             const raw = fs.readFileSync(pathToSettings)
 
             return JSON.parse(raw.toString())
+        })
+
+        ipcMain.handle('updateSettings', async (event, args) => {
+            try {
+                fs.writeFileSync(pathToSettings, JSON.stringify(args, null, 2), 'utf8')
+
+                return { success: true }
+            } catch (error) {
+                console.log("An error occurred while updating your settings: " + error);
+
+                return { success: false }
+            }
         })
 
         // Create Windows
