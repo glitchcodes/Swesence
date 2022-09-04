@@ -1,6 +1,8 @@
 <template>
   <keep-alive>
-    <component :is="currentComponent" :isDark="isDark" @change-page="navigateTo" />
+    <suspense>
+      <component :is="currentComponent" :isDark="isDark" @change-page="navigateTo" />
+    </suspense>
   </keep-alive>
 </template>
 
