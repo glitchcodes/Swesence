@@ -49,7 +49,9 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "Swesence"
+            "name": "Swesence",
+            "authors": "Vincent Tampos",
+            "exe": "Swesence.exe"
           }
         },
         {
