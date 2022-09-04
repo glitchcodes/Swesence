@@ -17,12 +17,10 @@
     "make": "electron-forge make"
   },
   "dependencies": {
-    "unplugin-element-plus": "^0.4.1",
     "@element-plus/icons-vue": "^2.0.9",
     "@vueuse/core": "^9.1.0",
     "discord-rich-presence": "^0.0.8",
     "electron-squirrel-startup": "^1.0.0",
-    "electron-unhandled": "^4.0.1",
     "element-plus": "^2.2.13",
     "utilities-css": "^5.0.0",
     "vue": "^3.2.37"
@@ -38,15 +36,14 @@
     "concurrently": "^7.3.0",
     "cross-env": "^7.0.3",
     "electron": "^20.0.3",
+    "unplugin-element-plus": "^0.4.1",
     "vite": "^3.0.7"
   },
   "config": {
     "forge": {
       "packagerConfig": {
         "name": "Swesence",
-        "productName": "Swesence",
-        "prune": true,
-        "ignore": ["src"]
+        "productName": "Swesence"
       },
       "makers": [
         {
