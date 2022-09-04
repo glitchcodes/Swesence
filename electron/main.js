@@ -9,6 +9,10 @@ if (require('electron-squirrel-startup')) {
     app.quit();
 }
 
+const unhandled = require('electron-unhandled');
+
+unhandled();
+
 // Get path to Game Database
 const pathToDatabase = path.join(__dirname, '../public', 'games.json')
 const pathToSettings = path.join(__dirname, '../public', 'config.json')
