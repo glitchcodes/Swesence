@@ -15,7 +15,7 @@
             Settings
           </el-button>
 
-          <el-link href="https://google.com" :underline="false" class="ml-2">
+          <el-link href="https://google.com" target="_blank" :underline="false" class="ml-2">
             <el-button type="info" :icon="QuestionFilled" plain>
               FAQ
             </el-button>
