@@ -1,7 +1,7 @@
 {
   "name": "swesence",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "commonjs",
   "main": "electron/main.js",
   "description": "Show your Nintendo Switch play activity using Discord Rich Presence",
