@@ -1,9 +1,12 @@
 <template>
-  <div class="navigation">
+  <div class="navigation" :class="{ 'shadow': isScrolled }">
     <el-button type="primary" :icon="Back" @click="emit('change-page', 'HomePage')" />
     <span class="header-title fw-bold fs-4 ml-3">Settings</span>
-  </div>
 
+    <el-button type="primary" plain class="float-right" @click="updateSettings">
+      Save Changes
+    </el-button>
+  </div>
   <div class="settings">
     <!-- Check for updates -->
     <el-row class="align-items-center my-5">
@@ -26,19 +29,39 @@
     </el-row>
     <!-- END Check for updates -->
 
+    <!-- Enable Advanced Settings -->
+    <el-row class="align-items-center my-5">
+      <el-col :span="12">
+        <div class="fw-bold">Enable Advanced Settings</div>
+
+        <el-alert title="For advanced people only." type="warning" :closable="false" />
+      </el-col>
+      <el-col :span="12">
+        <el-switch
+            v-model="advancedMode"
+            size="large"
+            active-text="Enable"
+            inactive-text="Disable"
+        />
+      </el-col>
+    </el-row>
+    <!-- END Enable Advanced Settings -->
+
+    <el-divider />
+
     <!-- Application ID -->
-    <el-row class="align-items-center mb-5">
+    <el-row class="align-items-center my-5">
       <el-col :span="12">
         <div class="fw-bold">Discord Application ID</div>
-        <el-alert type="warning" :closable="false">
+        <el-alert type="info" :closable="false">
           <template #title>
-            Not recommended to change. More info <a href="#" target="_blank">here</a>
+            Customize the Rich Presence. More info <a href="#" target="_blank">here</a>
           </template>
         </el-alert>
       </el-col>
       <el-col :span="12">
         <el-form-item>
-          <el-input v-model="settings.applicationId" size="large" />
+          <el-input v-model="settings.applicationId" size="large" :disabled="!advancedMode" />
         </el-form-item>
       </el-col>
     </el-row>
@@ -48,7 +71,7 @@
     <el-row class="align-items-center mb-5">
       <el-col :span="12">
         <div class="fw-bold">Game Database URL</div>
-        <el-alert type="warning" :closable="false">
+        <el-alert type="info" :closable="false">
           <template #title>
             Use a different game database. More info <a href="#" target="_blank">here</a>
           </template>
@@ -56,31 +79,46 @@
       </el-col>
       <el-col :span="12">
         <el-form-item>
-          <el-input v-model="settings.databaseUrl" size="large" />
+          <el-input v-model="settings.databaseUrl" size="large" :disabled="!advancedMode" />
         </el-form-item>
       </el-col>
     </el-row>
     <!-- END Application ID -->
-
-    <!-- Update Settings -->
-    <el-button type="primary" plain @click="updateSettings">
-      Save Changes
-    </el-button>
-    <!-- END Update Settings -->
   </div>
 
 </template>
 
 <script setup>
-  import { reactive } from "vue";
-  import { useFetch, useOnline } from '@vueuse/core'
-  import { ElButton, ElRow, ElCol, ElFormItem, ElInput, ElAlert, ElIcon, ElMessage } from 'element-plus'
+  import { ref, reactive, computed } from "vue";
+  import { useFetch, useOnline, useLocalStorage } from '@vueuse/core'
+  import { ElButton, ElRow, ElCol, ElFormItem, ElInput, ElAlert, ElIcon, ElMessage, ElSwitch, ElDivider } from 'element-plus'
   import { Back, Refresh } from '@element-plus/icons-vue'
 
   const emit = defineEmits(['change-page'])
 
   const isOnline = useOnline()
+  const advancedMode = useLocalStorage('advanced-mode', false)
   const settings = reactive(await window.api.send('fetchSettings'))
+
+  // Listen for scroll event to display shadow
+  const scrollPosition = ref(0)
+  const isScrolling = ref(false)
+
+  document.addEventListener('scroll', () => {
+    isScrolling.value = true
+  })
+
+  // Throttle scroll events
+  setInterval(() => {
+    if (isScrolling.value) {
+      isScrolling.value = false
+      scrollPosition.value = document.body.getBoundingClientRect().top
+    }
+  }, 100)
+
+  const isScrolled = computed(() => {
+    return scrollPosition.value !== 0
+  })
 
   // Fetch for new list of supported games
   const url = settings.databaseUrl;
@@ -148,12 +186,20 @@
 
 <style scoped>
   .navigation {
-    position: absolute;
-    top: 1.5rem;
+    background-color: #242424;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 1.5em 2em;
+    width: calc(100% - 4em);
+    text-align: initial;
+    transition: 0.2s;
+    z-index: 999;
   }
 
   .settings {
     text-align: initial!important;
+    margin-top: 5rem;
   }
 
   .header-title {
