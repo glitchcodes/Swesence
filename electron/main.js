@@ -1,4 +1,5 @@
 const path = require("path");
+const url = require("url");
 
 const { app, BrowserWindow, ipcMain, shell } = require("electron");
 const fs = require("fs");
@@ -34,7 +35,12 @@ function createWindow() {
         window.webContents.openDevTools()
     } else {
         // Load production build
-        window.loadFile(path.join(__dirname, '../dist', 'index.html'));
+        // TODO: Use a different format method
+        window.loadURL(url.format({
+          pathname: path.join(__dirname, '../dist', 'index.html'),
+          protocol: 'file:',
+          slashes: true
+        }))
     }
 
     // Listen for new-window event
