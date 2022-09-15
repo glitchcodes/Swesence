@@ -84,6 +84,21 @@
       </el-col>
     </el-row>
     <!-- END Application ID -->
+
+    <!-- Reset Settings -->
+    <el-row class="align-items-center my-5">
+      <el-col :span="12">
+        <div class="fw-bold">Reset settings</div>
+
+        <el-alert title="Only use this when your settings became invalid" type="warning" :closable="false" />
+      </el-col>
+      <el-col :span="12">
+        <el-button type="danger" plain @click="resetSettings">
+          Reset Settings
+        </el-button>
+      </el-col>
+    </el-row>
+    <!-- END Reset Settings -->
   </div>
 
 </template>
@@ -97,8 +112,10 @@
   const emit = defineEmits(['change-page'])
 
   const isOnline = useOnline()
+
   const advancedMode = useLocalStorage('advanced-mode', false)
   const settings = reactive(await window.api.send('fetchSettings'))
+  const hasErrors = ref(false)
 
   // Listen for scroll event to display shadow
   const scrollPosition = ref(0)
@@ -122,7 +139,20 @@
 
   // Fetch for new list of supported games
   const url = settings.databaseUrl;
-  const { data, error, statusCode, isFetching, execute } = useFetch(url, { immediate: false }).get().json()
+  const { data, error, statusCode, isFetching, execute } = useFetch(url, {
+    immediate: false,
+    beforeFetch() {
+      hasErrors.value = false
+    },
+    onFetchError() {
+      ElMessage({
+        message: 'Something went wrong while fetching the database. Check your database url',
+        type: 'error'
+      })
+
+      hasErrors.value = true
+    }
+  }).get().json()
 
   const checkForUpdates = async () => {
     // Stop update check if there is no internet connection
@@ -134,6 +164,9 @@
     }
 
     await execute()
+
+    // Return immediately if there are errors on fetch
+    if (hasErrors.value) return;
 
     const database = await window.api.send('loadDatabase')
     const updatedDatabase = data.value
@@ -178,6 +211,32 @@
     } else {
       ElMessage({
         message: 'Something went wrong updating your settings',
+        type: 'error'
+      })
+    }
+  }
+
+  const resetSettings = async () => {
+    const defaults = {
+      applicationId: '1010070024997851137',
+      databaseUrl: 'https://raw.githubusercontent.com/glitchcodes/Swesence/main/public/games.json'
+    }
+
+    const parsed = JSON.parse(JSON.stringify(defaults))
+    const result = await window.api.send('updateSettings', parsed)
+
+    if (result.success) {
+      // Reset settings client values
+      settings.applicationId = defaults.applicationId
+      settings.databaseUrl = defaults.databaseUrl
+
+      ElMessage({
+        message: 'Your settings have been reverted to defaults',
+        type: 'success'
+      })
+    } else {
+      ElMessage({
+        message: 'Something went wrong reverting your settings',
         type: 'error'
       })
     }
