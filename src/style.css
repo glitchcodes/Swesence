@@ -95,5 +95,9 @@ button:focus-visible {
   .form--custom {
     background-color: #e7e7e7;
   }
+
+  .navigation {
+    background-color: #ffffff!important;
+  }
 }
 
