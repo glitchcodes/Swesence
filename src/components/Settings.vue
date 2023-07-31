@@ -93,7 +93,7 @@
         <el-alert title="Only use this when your settings became invalid" type="warning" :closable="false" />
       </el-col>
       <el-col :span="12">
-        <el-button type="danger" plain @click="resetSettings">
+        <el-button type="warning" plain @click="resetSettings">
           Reset Settings
         </el-button>
       </el-col>

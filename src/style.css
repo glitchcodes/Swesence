@@ -15,6 +15,26 @@
   -webkit-text-size-adjust: 100%;
 }
 
+/*html, html.dark {*/
+/*  --el-color-primary: #ff7575;*/
+/*  --el-color-primary-light-3: #ff8383;*/
+/*  --el-color-primary-light-5: #ff9191;*/
+/*  --el-color-primary-light-7: #ff9e9e;*/
+/*  --el-color-primary-light-8: #ffc8c8;*/
+/*  --el-color-primary-light-9: #ffe3e3;*/
+/*  --el-color-primary-dark-2: #e66969;*/
+/*}*/
+
+html, html.dark {
+  --el-color-primary: #ff7575!important;
+  --el-color-primary-light-3: #ff8383!important;
+  --el-color-primary-light-5: #ff9191!important;
+  --el-color-primary-light-7: #ff9e9e!important;
+  --el-color-primary-light-8: #ffc8c8!important;
+  --el-color-primary-light-9: #ffe3e3!important;
+  --el-color-primary-dark-2: #e66969!important;
+}
+
 a {
   font-weight: 500;
   color: #646cff;
